@@ -1,6 +1,7 @@
 package ru.geekbrains.mynotes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 

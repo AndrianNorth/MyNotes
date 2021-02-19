@@ -6,7 +6,7 @@
     tools:context=".MainActivity">
 
     <fragment
-        android:id="@+id/NotesView"
+        android:id="@+id/NotesEdit"
         android:name="ru.geekbrains.mynotes.NotesViewFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
