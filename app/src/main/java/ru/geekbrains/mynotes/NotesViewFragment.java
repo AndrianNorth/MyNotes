@@ -1,5 +1,7 @@
 package ru.geekbrains.mynotes;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +19,14 @@ import java.util.List;
 public class NotesViewFragment extends Fragment {
 
     private List<SimpleNotes> notes = new ArrayList<>();
+    private boolean isLandscapeOrientation;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initArraylist();
+        isLandscapeOrientation =
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
@@ -44,7 +49,34 @@ public class NotesViewFragment extends Fragment {
             textView.setPadding(10, 0, 10, 0);
             textView.setTextSize(30f);
             linearLayout.addView(textView);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkOrientation();
+                }
+            });
         }
+    }
+
+    private void checkOrientation() {
+        if (isLandscapeOrientation) {
+            openNotetFragment();
+        } else {
+            startNotectivity();
+        }
+    }
+
+    private void openNotetFragment() {
+        NotesEditFragment fragment = new NotesEditFragment();
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.NotesEdit, fragment)
+                .commit();
+    }
+
+    private void startNotectivity() {
+        Intent intent = new Intent(getActivity(), NotesEditActivity.class);
+        startActivity(intent);
     }
 
     private void initArraylist() {
