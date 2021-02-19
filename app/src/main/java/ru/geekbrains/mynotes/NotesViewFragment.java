@@ -37,12 +37,11 @@ public class NotesViewFragment extends Fragment {
 
     private void initView(View view) {
         LinearLayout linearLayout = (LinearLayout) view;
-        int padding = getResources().getDimensionPixelSize(R.dimen.default_margin);
 
         for (SimpleNotes note : notes) {
             TextView textView = new TextView(linearLayout.getContext());
             textView.setText(note.getTITLE() + " " + note.getDESCRIPTION() + " " + note.getDATE());
-            textView.setPadding(padding, 0, padding, 0);
+            textView.setPadding(10, 0, 10, 0);
             textView.setTextSize(30f);
             linearLayout.addView(textView);
         }
