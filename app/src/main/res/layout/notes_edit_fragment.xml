@@ -9,7 +9,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Заметка"
-        android:gravity="start"/>
+        android:gravity="start" />
 
 </LinearLayout>
