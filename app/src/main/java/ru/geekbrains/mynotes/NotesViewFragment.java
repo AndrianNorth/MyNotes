@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +31,9 @@ public class NotesViewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.notes_view_fragment, container, false);
+        View view = inflater.inflate(R.layout.notes_view_fragment, container, false);
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -60,13 +62,13 @@ public class NotesViewFragment extends Fragment {
 
     private void checkOrientation() {
         if (isLandscapeOrientation) {
-            openNotetFragment();
+            openNoteFragment();
         } else {
-            startNotectivity();
+            startNoteActivity();
         }
     }
 
-    private void openNotetFragment() {
+    private void openNoteFragment() {
         NotesEditFragment fragment = new NotesEditFragment();
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -74,7 +76,7 @@ public class NotesViewFragment extends Fragment {
                 .commit();
     }
 
-    private void startNotectivity() {
+    private void startNoteActivity() {
         Intent intent = new Intent(getActivity(), NotesEditActivity.class);
         startActivity(intent);
     }
