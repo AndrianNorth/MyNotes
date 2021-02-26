@@ -13,20 +13,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotesViewFragment extends Fragment {
 
     private List<SimpleNotes> notes = new ArrayList<>();
-    private boolean isLandscapeOrientation;
+    private final NotesAdapter notesAdapter = new NotesAdapter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initArraylist();
-        isLandscapeOrientation =
-                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
@@ -42,44 +43,18 @@ public class NotesViewFragment extends Fragment {
         initView(view);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        notesAdapter.setItems(notes);
+    }
+
     private void initView(View view) {
-        LinearLayout linearLayout = (LinearLayout) view;
-
-        for (SimpleNotes note : notes) {
-            TextView textView = new TextView(linearLayout.getContext());
-            textView.setText(note.getTITLE() + " " + note.getDESCRIPTION() + " " + note.getDATE());
-            textView.setPadding(10, 0, 10, 0);
-            textView.setTextSize(30f);
-            linearLayout.addView(textView);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkOrientation();
-                }
-            });
+        RecyclerView recyclerView = view.findViewById(R.id.rv_notes);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.setAdapter(notesAdapter);
         }
-    }
 
-    private void checkOrientation() {
-        if (isLandscapeOrientation) {
-            openNoteFragment();
-        } else {
-            startNoteActivity();
-        }
-    }
-
-    private void openNoteFragment() {
-        NotesEditFragment fragment = new NotesEditFragment();
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.NotesEdit, fragment)
-                .commit();
-    }
-
-    private void startNoteActivity() {
-        Intent intent = new Intent(getActivity(), NotesEditActivity.class);
-        startActivity(intent);
-    }
 
     private void initArraylist() {
         notes.add(new SimpleNotes("Список покупок", "Продукты", "18.02.2020"));
