@@ -19,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesViewFragment extends Fragment {
+public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks {
 
     private List<SimpleNotes> notes = new ArrayList<>();
-    private final NotesAdapter notesAdapter = new NotesAdapter();
+    private final NotesAdapter notesAdapter = new NotesAdapter((NotesAdapterCallbacks) this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +47,15 @@ public class NotesViewFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         notesAdapter.setItems(notes);
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+
+    }
+
+    private void replaceFragment(@NonNull SimpleNotes model){
+
     }
 
     private void initView(View view) {

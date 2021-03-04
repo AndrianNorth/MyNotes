@@ -15,8 +15,13 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private static final String TAG = "NotesAdapter";
+    private final NotesAdapterCallbacks callbacks;
 
     private final List<SimpleNotes> simpleNotes = new ArrayList<>();
+
+    public NotesAdapter(NotesAdapterCallbacks callbacks) {
+        this.callbacks = callbacks;
+    }
 
     public void setItems(List<SimpleNotes> items){
         simpleNotes.clear();
@@ -28,7 +33,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notes, parent, false);
-        return new NotesViewHolder(view);
+        return new NotesViewHolder(view, callbacks);
     }
 
     @Override
@@ -45,13 +50,19 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         private final MaterialTextView textView;
 
-        public NotesViewHolder(@NonNull View itemView) {
+        public NotesViewHolder(@NonNull View itemView, NotesAdapterCallbacks callbacks) {
             super(itemView);
             textView = itemView.findViewById(R.id.tv_item_title);
         }
 
         public void onBind(SimpleNotes model, int position){
             textView.setText(model.getTITLE());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callbacks.onItemClicked(getAdapterPosition());
+                }
+            });
         }
     }
 }
