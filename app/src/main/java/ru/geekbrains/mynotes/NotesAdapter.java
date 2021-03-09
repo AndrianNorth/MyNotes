@@ -15,8 +15,13 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private static final String TAG = "NotesAdapter";
+    private final NotesAdapterCallbacks callbacks;
 
     private final List<SimpleNotes> simpleNotes = new ArrayList<>();
+
+    public NotesAdapter(NotesAdapterCallbacks callbacks) {
+        this.callbacks = callbacks;
+    }
 
     public void setItems(List<SimpleNotes> items){
         simpleNotes.clear();
@@ -52,6 +57,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         public void onBind(SimpleNotes model, int position){
             textView.setText(model.getTITLE());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callbacks.onItemClicked(getAdapterPosition());
+                }
+            });
         }
     }
 }
