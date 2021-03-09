@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment;
 
 public class NotesEditFragment extends Fragment {
     public static final String ARG_INDEX = "ARG";
+
     private EditText titleEditText;
     private EditText descriptionEditText;
 
-    public Fragment newInstance(@NonNull SimpleNotes model){
+    public static Fragment newInstance(@NonNull SimpleNotes model){
         Fragment fragment = new NotesEditFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARG_INDEX, model);

@@ -21,8 +21,9 @@ import java.util.List;
 
 public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks {
 
+    private RecyclerView recyclerView;
     private List<SimpleNotes> notes = new ArrayList<>();
-    private final NotesAdapter notesAdapter = new NotesAdapter((NotesAdapterCallbacks) this);
+    private final NotesAdapter notesAdapter = new NotesAdapter(this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,11 +52,17 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
 
     @Override
     public void onItemClicked(int position) {
-
+        SimpleNotes model = notes.get(position);
+        replaceFragment(model);
+//        Toast.makeText(requireContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     private void replaceFragment(@NonNull SimpleNotes model){
-
+        Fragment fragment = NotesEditFragment.newInstance(model);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_activity, fragment)
+                .commit();
     }
 
     private void initView(View view) {
