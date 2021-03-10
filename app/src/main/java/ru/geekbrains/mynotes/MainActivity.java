@@ -7,8 +7,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = initToolbar();
         initDrawer(toolbar);
+        Fragment fragment = new NotesViewFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 
     private void initDrawer(Toolbar toolbar) {
