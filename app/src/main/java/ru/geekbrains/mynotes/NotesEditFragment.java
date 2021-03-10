@@ -1,7 +1,9 @@
 package ru.geekbrains.mynotes;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,15 @@ public class NotesEditFragment extends Fragment {
         return fragment;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.notes_edit_fragment, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -32,7 +43,7 @@ public class NotesEditFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getArguments() != null){
+        if(isAdded() && getArguments() != null){
             SimpleNotes simpleNotes = (SimpleNotes) getArguments().getSerializable(ARG_INDEX);
             titleEditText.setText(simpleNotes.getTITLE());
             descriptionEditText.setText(simpleNotes.getDESCRIPTION());
