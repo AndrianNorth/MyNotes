@@ -51,7 +51,7 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
     public void onItemClicked(int position) {
         SimpleNotes model = notes.get(position);
         replaceFragment(model);
-        Toast.makeText(requireContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(requireContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     private void replaceFragment(@NonNull SimpleNotes model){
@@ -59,6 +59,7 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
