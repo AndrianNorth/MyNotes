@@ -59,7 +59,7 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         recyclerView.setAdapter(notesAdapter);
-//        notesAdapter.submitList(notes);
+        notesAdapter.submitList(notes);
     }
 
     @Override
