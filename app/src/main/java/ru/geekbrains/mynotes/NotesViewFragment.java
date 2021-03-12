@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,29 +47,28 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.rv_notes);
         floatingActionButton = view.findViewById(R.id.fb_notes_add);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(null);
-            }
-        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         recyclerView.setAdapter(notesAdapter);
-//        notesAdapter.submitList(notes);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(null);
+            }
+        });
+        getNotes();
     }
 
     @Override
     public void onItemClicked(int position) {
         SimpleNotes model = notes.get(position);
         replaceFragment(model);
-//        Toast.makeText(requireContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
-    private void replaceFragment(@NonNull SimpleNotes model){
+    private void replaceFragment(@Nullable SimpleNotes model) {
         Fragment fragment = NotesEditFragment.newInstance(model);
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -78,28 +77,26 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
                 .commit();
     }
 
-    private void getNotes(){
+    private void getNotes() {
         firebaseFirestore
                 .collection("notes")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.getResult() != null) {
+                        if (task.getResult() != null) {
                             List<SimpleNotes> items = task.getResult().toObjects(SimpleNotes.class);
                             notes.clear();
                             notes.addAll(items);
-//                            notesAdapter
+                            notesAdapter.submitList(items);
                         }
                     }
                 })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "ошибка загрузки текста", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

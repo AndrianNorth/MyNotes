@@ -2,7 +2,7 @@ package ru.geekbrains.mynotes;
 
 public class Constants {
 
-    private Constants(){
+    private Constants() {
 
     }
 
