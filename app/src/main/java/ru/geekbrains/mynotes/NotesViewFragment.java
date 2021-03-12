@@ -11,7 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +24,15 @@ import java.util.List;
 public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks {
 
     private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
+
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private final List<SimpleNotes> notes = new ArrayList<>();
-    private final NotesAdapter notesAdapter = new NotesAdapter(this);
+    private final NotesAdapter notesAdapter = new NotesAdapter(new NoteItemCallback(), this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initArraylist();
-        
     }
 
     @Override
@@ -40,14 +46,20 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.rv_notes);
+        floatingActionButton = view.findViewById(R.id.fb_notes_add);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(null);
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         recyclerView.setAdapter(notesAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        notesAdapter.setItems(notes);
+//        notesAdapter.submitList(notes);
     }
 
     @Override
@@ -66,10 +78,28 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
                 .commit();
     }
 
-    private void initArraylist() {
-        notes.add(new SimpleNotes("Список покупок", "Продукты", "18.02.2020"));
-        notes.add(new SimpleNotes("Посмотреть фильм", "Побег из Претории", "21.02.2020"));
-        notes.add(new SimpleNotes("Повторить коллекции", "Serializable", "18.02.2020"));
-        notes.add(new SimpleNotes("Прочитать методичку", "К следующему уроку", "19.02.2020"));
+    private void getNotes(){
+        firebaseFirestore
+                .collection("notes")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult() != null) {
+                            List<SimpleNotes> items = task.getResult().toObjects(SimpleNotes.class);
+                            notes.clear();
+                            notes.addAll(items);
+//                            notesAdapter
+                        }
+                    }
+                })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
     }
 }

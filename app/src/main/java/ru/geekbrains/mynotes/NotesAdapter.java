@@ -19,7 +19,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     private final List<SimpleNotes> simpleNotes = new ArrayList<>();
 
-    public NotesAdapter(NotesAdapterCallbacks callbacks) {
+    public NotesAdapter(NoteItemCallback noteItemCallback, NotesAdapterCallbacks callbacks) {
         this.callbacks = callbacks;
     }
 
@@ -56,7 +56,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         }
 
         public void onBind(SimpleNotes model, int position){
-            textView.setText(model.getTITLE());
+            textView.setText(model.getTitle());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
