@@ -3,6 +3,7 @@ package ru.geekbrains.mynotes;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -100,6 +101,26 @@ public class NotesEditFragment extends Fragment {
                     });
         } else {
             Toast.makeText(requireContext(), "Поля не могут быть пустыми", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+
+            case R.id.action_favorite:
+                return true;
+
+            case R.id.action_delete_note:
+//                firebaseFirestore
+//                        .collection(Constants.TABLE_NAME_NOTES)
+//                        .document(idOnDelete)
+//                        .delete();
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
     }
 }
