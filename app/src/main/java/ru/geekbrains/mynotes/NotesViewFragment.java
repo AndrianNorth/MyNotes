@@ -65,6 +65,7 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
     @Override
     public void onItemClicked(int position) {
         SimpleNotes model = notes.get(position);
+        MainActivity.idOnDelete = String.valueOf(notes.get(position).getId());
         replaceFragment(model);
     }
 

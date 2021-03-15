@@ -3,7 +3,6 @@ package ru.geekbrains.mynotes;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,6 +23,7 @@ import java.util.UUID;
 
 public class NotesEditFragment extends Fragment {
     public static final String ARG_INDEX = "ARG";
+    private String idOnDelete = "";
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     public static Fragment newInstance(@Nullable SimpleNotes model) {
@@ -80,6 +80,7 @@ public class NotesEditFragment extends Fragment {
             @Nullable String description) {
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
             final String id = UUID.randomUUID().toString();
+            idOnDelete = id;
             final Map<String, Object> map = new HashMap<>();
             map.put("id", id);
             map.put("title", title);
@@ -90,13 +91,13 @@ public class NotesEditFragment extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-
+                            makeToast("Сохранение успешно");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            makeToast("Ошибка при сохранении");
                         }
                     });
         } else {
@@ -104,23 +105,7 @@ public class NotesEditFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-
-            case R.id.action_favorite:
-                return true;
-
-            case R.id.action_delete_note:
-//                firebaseFirestore
-//                        .collection(Constants.TABLE_NAME_NOTES)
-//                        .document(idOnDelete)
-//                        .delete();
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
+    public void makeToast(String message){
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
