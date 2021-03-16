@@ -2,6 +2,7 @@ package ru.geekbrains.mynotes;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NotesEditActivity extends AppCompatActivity {

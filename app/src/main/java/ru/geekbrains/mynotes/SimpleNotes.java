@@ -3,25 +3,31 @@ package ru.geekbrains.mynotes;
 import java.io.Serializable;
 
 public class SimpleNotes implements Serializable {
-    private final String TITLE;
-    private final String DESCRIPTION;
-    private final String DATE;
+    private String title;
+    private String description;
+    private String id;
 
-    public SimpleNotes(String TITLE, String DESCRIPTION, String DATE) {
-        this.TITLE = TITLE;
-        this.DESCRIPTION = DESCRIPTION;
-        this.DATE = DATE;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getTITLE() {
-        return TITLE;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getDESCRIPTION() {
-        return DESCRIPTION;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getDATE() {
-        return DATE;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getId() {
+        return id;
     }
 }

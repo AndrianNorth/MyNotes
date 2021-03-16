@@ -5,28 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.ArrayList;
-import java.util.List;
+public class NotesAdapter extends ListAdapter<SimpleNotes, NotesAdapter.NotesViewHolder> {
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
-
-    private static final String TAG = "NotesAdapter";
     private final NotesAdapterCallbacks callbacks;
 
-    private final List<SimpleNotes> simpleNotes = new ArrayList<>();
-
-    public NotesAdapter(NotesAdapterCallbacks callbacks) {
+    public NotesAdapter(
+            @NonNull DiffUtil.ItemCallback<SimpleNotes> diffCallback,
+            @NonNull NotesAdapterCallbacks callbacks) {
+        super(diffCallback);
         this.callbacks = callbacks;
-    }
-
-    public void setItems(List<SimpleNotes> items){
-        simpleNotes.clear();
-        simpleNotes.addAll(items);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -38,12 +31,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
-        holder.onBind(simpleNotes.get(position), position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return simpleNotes.size();
+        holder.onBind(getItem(position), position);
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
@@ -55,8 +43,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             textView = itemView.findViewById(R.id.tv_item_title);
         }
 
-        public void onBind(SimpleNotes model, int position){
-            textView.setText(model.getTITLE());
+        public void onBind(SimpleNotes model, int position) {
+            textView.setText(model.getTitle());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
