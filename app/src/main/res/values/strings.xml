@@ -16,6 +16,9 @@
     <string name="delete">delete</string>
     <string name="item1">item 1</string>
     <string name="item2">item 2</string>
+    <string name="note_delete_alert_title">Удаление</string>
+    <string name="note_delete_alert_message">Вы действительно хотите удалить заметку?</string>
+    <string name="note_delete_alert_positive_btn">Да</string>
     <string name="new_menu_item_added">Menu item added</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -2,10 +2,11 @@ package ru.geekbrains.mynotes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete_note:
                 if(idOnDelete != null) {
-                    noteDelete(idOnDelete);
-                    makeToast("Заметка удалена");
+                    showAlertDialog();
                 }
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,5 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 .delete();
         onBackPressed();
     }
+
+    private void showAlertDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.note_delete_alert_title)
+                .setMessage(R.string.note_delete_alert_message)
+                .setPositiveButton(R.string.note_delete_alert_positive_btn, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        noteDelete(idOnDelete);
+                    }
+                })
+        .create()
+        .show();
+    }
 }
-    
