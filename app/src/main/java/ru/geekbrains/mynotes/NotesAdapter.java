@@ -1,8 +1,10 @@
 package ru.geekbrains.mynotes;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -49,6 +51,13 @@ public class NotesAdapter extends ListAdapter<SimpleNotes, NotesAdapter.NotesVie
                 @Override
                 public void onClick(View v) {
                     callbacks.onItemClicked(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    callbacks.onLongItemClicked(getAdapterPosition());
+                    return true;
                 }
             });
         }

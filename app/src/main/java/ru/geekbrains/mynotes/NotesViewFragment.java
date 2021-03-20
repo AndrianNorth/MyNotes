@@ -30,6 +30,7 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
     private final List<SimpleNotes> notes = new ArrayList<>();
     private final NotesAdapter notesAdapter = new NotesAdapter(new NoteItemCallback(), this);
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,11 @@ public class NotesViewFragment extends Fragment implements NotesAdapterCallbacks
         SimpleNotes model = notes.get(position);
         MainActivity.idOnDelete = String.valueOf(notes.get(position).getId());
         replaceFragment(model);
+    }
+
+    @Override
+    public void onLongItemClicked(int position) {
+        MainActivity.idOnDelete = String.valueOf(notes.get(position).getId());
     }
 
     private void replaceFragment(@Nullable SimpleNotes model) {
